@@ -89,3 +89,5 @@ ENV/
 .project
 
 .pydevproject
+
+.idea

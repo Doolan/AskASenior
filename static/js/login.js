@@ -1,6 +1,6 @@
 /* This example will only work in the latest browsers */
 const initApp = () => {
-  const registryToken = "3895d6d5-0656-42ae-9d7d-fc0daf4af801";
+  const registryToken = "4db6bb62-45e1-4451-a4f1-b8a8d3b1330b";
 
   const login = () => {
     Rosefire.signIn(registryToken, (err, rfUser) => {
@@ -14,7 +14,7 @@ const initApp = () => {
   if (loginButton) {
     loginButton.onclick = login;
   }
-}
+};
 
 window.onload = initApp;
 

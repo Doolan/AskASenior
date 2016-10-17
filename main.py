@@ -25,7 +25,7 @@ from webapp2_extras import sessions
 
 
 # This normally shouldn't be checked into Git
-ROSEFIRE_SECRET = 'SECRETSAUCEYO'
+ROSEFIRE_SECRET = '5LgLSINSUKGVbkwTw0ue'
 
 JINJA_ENV = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -50,7 +50,7 @@ class BaseHandler(webapp2.RequestHandler):
 
 class MainHandler(BaseHandler):
     def get(self):
-        template = JINJA_ENV.get_template("templates/index.html.jinja")
+        template = JINJA_ENV.get_template("templates/index.html")
         if "user_info" in self.session:
           user_info = json.loads(self.session["user_info"])
           print("user_info", user_info)
