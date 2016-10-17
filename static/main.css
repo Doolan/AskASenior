@@ -1,0 +1,43 @@
+/*.centered{*/
+  /*position: relative;*/
+  /*top: 50%;*/
+  /*-webkit-transform: translateY(-50%);*/
+  /*-ms-transform: translateY(-50%);*/
+  /*transform: translateY(-50%);*/
+  /*-webkit-transform: translateX(-50%);*/
+  /*-ms-transform: translateX(-50%);*/
+  /*transform: translateX(-50%);*/
+/*}*/
+.parent-centered {
+  position: relative;
+}
+.centered-middle {
+  /*position: absolute;*/
+  /*top: 50%;*/
+    -webkit-transform: translateY(150%);
+  -ms-transform: translateY(150%);
+  transform: translateY(150%);
+  /*left: 50%;*/
+  /*transform: translate(-50%, -50%);*/
+}
+
+.vertical-spacer {
+    width: 100%;
+    display: block;
+    clear: both;
+    padding-top: 2em;
+}
+
+.vertical-half-spacer {
+    width: 100%;
+    display: block;
+    clear: both;
+    padding-top: 1em;
+}
+
+.vertical-quater-spacer {
+    width: 100%;
+    display: block;
+    clear: both;
+    padding-top: 0.25em;
+}
