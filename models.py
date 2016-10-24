@@ -6,12 +6,12 @@ Created on Oct 24, 2016
 
 from google.appengine.ext import ndb
 
+
 class User(ndb.Model):
     id = ndb.StringProperty()
     username = ndb.StringProperty()
     email = ndb.StringProperty()
-    year = ndb.IntgerProperty()
-
+    #year = ndb.IntgerProperty()
 
 
 class Post(ndb.Model):
@@ -19,7 +19,7 @@ class Post(ndb.Model):
     author = ndb.KeyProperty(kind=User)
     is_anonymous = ndb.BooleanProperty()
     text = ndb.TextProperty()
-    time = ndb.DateTimePropery()
+    time = ndb.DateTimePropery(auto_now_add=True)
 
 
 class Reply(ndb.Model):
