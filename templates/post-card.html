@@ -1,0 +1,3 @@
+
+
+<p>username: {% if not post.is_anonymous %} {{ post.author.get().username }} {% endif %} | post text: {{ post.text }}</p>

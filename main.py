@@ -9,6 +9,7 @@ from webapp2_extras import sessions
 import handlers
 from models import Post
 import user_utils
+import post_utils
 
 # This normally shouldn't be checked into Git
 ROSEFIRE_SECRET = '5LgLSINSUKGVbkwTw0ue'
@@ -61,8 +62,8 @@ class MainHandler(BaseHandler):
 
 
 class PostListHandler(BaseHandler):
-    #     def update_values(self, email, values):
-    #         values["password_query"] = utils.get_query_for_all_passwords_for_email(email)
+    def update_values(self, values):
+        values["post_query"] = post_utils.get_query_for_all_posts()
     def get_page_title(self):
         return "Posts"
 
@@ -79,13 +80,10 @@ class PostListHandler(BaseHandler):
             user_info = json.loads(self.session.get("user_info"))
             email = user_info["email"]
 
-        #         query = utils.get_query_for_all_passwords_for_email(email)
+        query = post_utils.get_query_for_all_posts()
         template = JINJA_ENV.get_template("templates/post-list.html")
-        #         values = {"user_email": email,
-        #                   "logout_url": users.create_logout_url("/"),
-        #                   "password_query": query,
-        #                   "login_method": login_method}
-        self.response.out.write(template.render())
+        values = {"post_query": query}
+        self.response.out.write(template.render(values))
 
 
 # Auth handlers
