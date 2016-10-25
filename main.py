@@ -7,7 +7,7 @@ from rosefire import RosefireTokenVerifier
 import webapp2
 from webapp2_extras import sessions
 import handlers
-from models import Post
+from models import Post, Reply
 import user_utils
 import post_utils
 
@@ -84,6 +84,29 @@ class PostListHandler(BaseHandler):
         template = JINJA_ENV.get_template("templates/post-list.html")
         values = {"post_query": query}
         self.response.out.write(template.render(values))
+        
+class ViewPostHandler(BaseHandler):
+    def get_page_title(self):
+        return "View Post"
+    def get(self):
+        if "user_info" not in self.session:
+            #            raise Exception("Missing user!")
+            self.redirect("/")
+            return
+
+        else:
+            user_info = json.loads(self.session.get("user_info"))
+            email = user_info["email"]
+            
+#         self.response.headers['Content-Type'] = 'text/plain'
+#         self.response.write(self.request.GET['resp'])
+        post_id = self.request.get("post_id")
+
+        post_query = post_utils.get_post_by_id(int(post_id))
+        template = JINJA_ENV.get_template("templates/view-post.html")
+        values = {"post": post_query,
+                  "post_id": post_id}
+        self.response.out.write(template.render(values))
 
 
 # Auth handlers
@@ -115,6 +138,16 @@ class PostAction(BaseHandler):
                     is_anonymous=False, text=self.request.get('text'))
         post.put()
         self.redirect(self.request.referer)
+        
+class InsertReplyAction(BaseHandler):
+    """Actions related to Posts"""
+
+    def post(self):
+        user = user_utils.get_user_from_rosefire_user(self.user())
+        post = post_utils.get_post_by_id(int(self.request.get('post_id')))
+        reply = Reply(parent = post.key, author = user.key, text = self.request.get('text'))
+        reply.put()
+        self.redirect(self.request.referer)
 
 
 config = {}
@@ -128,5 +161,7 @@ app = webapp2.WSGIApplication([
     ('/post-list', PostListHandler),
     ('/login', LoginHandler),
     ('/logout', LogoutHandler),
-    ('/post', PostAction)
+    ('/post', PostAction),
+    ('/insert-reply', InsertReplyAction),
+    ('/view-post', ViewPostHandler)
 ], config=config, debug=True)
