@@ -19,7 +19,7 @@ class Post(ndb.Model):
     author = ndb.KeyProperty(kind=User)
     is_anonymous = ndb.BooleanProperty()
     text = ndb.TextProperty()
-    time = ndb.DateTimePropery(auto_now_add=True)
+    time = ndb.DateTimeProperty(auto_now_add=True)
 
 
 class Reply(ndb.Model):
@@ -28,4 +28,4 @@ class Reply(ndb.Model):
     up_votes = ndb.KeyProperty(kind=User, repeated=True)
     down_votes = ndb.KeyProperty(kind=User, repeated=True)
     text = ndb.TextProperty()
-    time = ndb.DateTimePropery()
+    time = ndb.DateTimeProperty()

@@ -1,15 +1,16 @@
 import json
-import logging
 import os
 
 import jinja2
-from rosefire import RosefireTokenVerifier
 import webapp2
+from rosefire import RosefireTokenVerifier
 from webapp2_extras import sessions
-from models import (User, Post, Reply)
-from utils import user_utils
+
+from models import (Post)
 
 # This normally shouldn't be checked into Git
+from user_utils import get_user_from_rosefire_user
+
 ROSEFIRE_SECRET = '5LgLSINSUKGVbkwTw0ue'
 
 JINJA_ENV = jinja2.Environment(
@@ -52,7 +53,7 @@ class PostAction(BaseHandler):
     """Actions related to Posts"""
 
     def post(self):
-        user = user_utils.get_user_from_rosefire_user(self.user())
+        user = get_user_from_rosefire_user(self.user())
         post = Post(category=self.request.get('category'), author=user.key,
                     is_anonymous=self.request.get('is_anonymous'), text=self.request.get('text'))
         post.put()
