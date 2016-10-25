@@ -84,7 +84,8 @@ class PostListHandler(BaseHandler):
         template = JINJA_ENV.get_template("templates/post-list.html")
         values = {"post_query": query}
         self.response.out.write(template.render(values))
-        
+
+
 class ViewPostHandler(BaseHandler):
     def get_page_title(self):
         return "View Post"
@@ -101,11 +102,13 @@ class ViewPostHandler(BaseHandler):
 #         self.response.headers['Content-Type'] = 'text/plain'
 #         self.response.write(self.request.GET['resp'])
         post_id = self.request.get("post_id")
-
+        
         post_query = post_utils.get_post_by_id(int(post_id))
+        reply_query = post_utils.get_replies_for_post_by_id(int(post_id))
         template = JINJA_ENV.get_template("templates/view-post.html")
         values = {"post": post_query,
-                  "post_id": post_id}
+                  "post_id": post_id,
+                  "reply_query": reply_query}
         self.response.out.write(template.render(values))
 
 
