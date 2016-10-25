@@ -7,6 +7,8 @@ from rosefire import RosefireTokenVerifier
 import webapp2
 from webapp2_extras import sessions
 import handlers
+from models import Post
+import user_utils
 
 # This normally shouldn't be checked into Git
 ROSEFIRE_SECRET = '5LgLSINSUKGVbkwTw0ue'
@@ -49,11 +51,40 @@ class MainHandler(BaseHandler):
     def get(self):
         template = JINJA_ENV.get_template("templates/index.html")
         if "user_info" in self.session:
-            user_info = json.loads(self.session["user_info"])
-            print("user_info", user_info)
-            self.response.out.write(template.render({"user_info": user_info}))
+#             user_info = json.loads(self.session["user_info"])
+#             print("user_info", user_info)
+#             self.response.out.write(template.render({"user_info": user_info}))
+            self.redirect("/post-list")
+            return
         else:
             self.response.out.write(template.render())
+            
+class PostListHandler(BaseHandler):
+#     def update_values(self, email, values):
+#         values["password_query"] = utils.get_query_for_all_passwords_for_email(email)
+    def get_page_title(self):
+        return "Posts"
+    
+    def get_template(self):
+        return "templates/post-list.html"
+    
+    def get(self):
+        if "user_info" not in self.session:
+#            raise Exception("Missing user!")
+            self.redirect("/")
+            return
+
+        else:
+            user_info=json.loads(self.session.get("user_info"))
+            email = user_info["email"]
+
+#         query = utils.get_query_for_all_passwords_for_email(email)
+        template = JINJA_ENV.get_template("templates/post-list.html")
+#         values = {"user_email": email,
+#                   "logout_url": users.create_logout_url("/"),
+#                   "password_query": query,
+#                   "login_method": login_method}
+        self.response.out.write(template.render())
 
 
 # Auth handlers
@@ -79,7 +110,7 @@ class PostAction(BaseHandler):
     """Actions related to Posts"""
 
     def post(self):
-        user = get_user_from_rosefire_user(self.user())
+        user = user_utils.get_user_from_rosefire_user(self.user())
         post = Post(category=self.request.get('category'), author=user.key,
                     is_anonymous=self.request.get('is_anonymous'), text=self.request.get('text'))
         post.put()
@@ -93,6 +124,7 @@ config['webapp2_extras.sessions'] = {
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
+    ('/post-list', PostListHandler),
     ('/login', LoginHandler),
     ('/logout', LogoutHandler),
     ('/post', PostAction)
