@@ -8,14 +8,15 @@ from google.appengine.ext import ndb
 
 
 class User(ndb.Model):
-    id = ndb.StringProperty()
+    ID = ndb.StringProperty()
     username = ndb.StringProperty()
     email = ndb.StringProperty()
     #year = ndb.IntgerProperty()
 
 
 class Post(ndb.Model):
-    category = ndb.StringProperty(repeated=True)
+    #category = ndb.StringProperty(repeated=True)
+    category = ndb.StringProperty()
     author = ndb.KeyProperty(kind=User)
     is_anonymous = ndb.BooleanProperty()
     text = ndb.TextProperty()
