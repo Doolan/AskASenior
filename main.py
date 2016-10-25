@@ -33,6 +33,17 @@ class BaseHandler(webapp2.RequestHandler):
         # Returns a session using the default cookie key.
         return self.session_store.get_session()
 
+    def user(self):
+        if "user_info" not in self.session:
+            token = self.request.get('token')
+            auth_data = RosefireTokenVerifier(ROSEFIRE_SECRET).verify(token)
+            user_info = {"name": auth_data.name,
+                         "username": auth_data.username,
+                         "email": auth_data.email,
+                         "role": auth_data.group}
+            self.session["user_info"] = json.dumps(user_info)
+        return self.session
+
 
 class MainHandler(BaseHandler):
     def get(self):
@@ -64,6 +75,15 @@ class LogoutHandler(BaseHandler):
         del self.session["user_info"]
         self.redirect(uri="/")
 
+class PostAction(BaseHandler):
+    """Actions related to Posts"""
+
+    def post(self):
+        user = get_user_from_rosefire_user(self.user())
+        post = Post(category=self.request.get('category'), author=user.key,
+                    is_anonymous=self.request.get('is_anonymous'), text=self.request.get('text'))
+        post.put()
+        self.redirect(self.request.referer)
 
 config = {}
 config['webapp2_extras.sessions'] = {
@@ -75,5 +95,5 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/login', LoginHandler),
     ('/logout', LogoutHandler),
-    ('/post', handlers.PostAction)
+    ('/post', PostAction)
 ], config=config, debug=True)
