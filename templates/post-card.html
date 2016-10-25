@@ -1,4 +1,7 @@
-
-<div>
-	<a href="/view-post?post_id={{post.key.id()}}">username: {% if not post.is_anonymous %} {{ post.author.get().username }} {% endif %} | post text: {{ post.text }}</a>
+<div class="ui segment">
+	<h3>{{ post.text }}</h3>
+	<p><em>{% if not post.is_anonymous %} <strong> {{ post.author.get().username }} </strong>
+		   {% else %} (anonymous)
+		 {% endif %}</em></p>
+	<a href="/view-post?post_id={{post.key.id()}}">View Post</a>
 </div>

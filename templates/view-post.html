@@ -24,14 +24,40 @@
 {% endblock %}
 
 {% block posts %}
-	<div class="ui text container centered-middle">
-			<div class="content">
-				<h1 class="large ">View Post: {{post_id}} {{post}}</h1>
-			</div>
-			
+	<br />
+	<br />
+	<br />
+	<br />
+<div class="ui text container centered">
+	<div class="ui inverted segment">
+		<h3>{{ post.text }}</h3>
+		<p><em>{% if not post.is_anonymous %} <strong> {{ post.author.get().username }} </strong>
+			   {% else %} (anonymous)
+			 {% endif %}</em></p>
+	</div>
+	
 	  {% for reply in reply_query %}
     	{% include "templates/reply-card.html" %}
  	 {% endfor %}
+ 	 
+	<div class="ui inverted segment">
+		<h2>Add a new reply</h2>
+		<form action="/insert-reply" method="post" class="ui form">
+			<div class="field ui segment">
+				<label>Text</label>
+				<input type="text" name="text" placeholder="Post Text">
+			</div>
+			<div class="field ui segment" style="display: none">
+				<label>post_id</label>
+				<input type="text" name="post_id" value = {{post_id}}>
+			</div>
+			<input type="submit" value="Submit" class="ui button">
+		</form>
+	</div>
+	
+	<br />
+	<br />
+</div>
 {% endblock %}
 
 
@@ -40,28 +66,7 @@
 			
 {% block dialogs %}
 
-			<h1>Add a new reply</h1>
-			<form action="/insert-reply" method="post">
-				<table>
-<!-- 					<tr>
-						<td>Categories</td>
-						<td><input type="text" name="quote"></td>
-					</tr> -->
-					<tr>
-						<td>Text</td>
-						<td><input type="text" name="text"></td>
-					</tr>
-					<tr style="display: none">
-						<td>post_id</td>
-						<td><input type="text" name="post_id" value = {{post_id}}></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input type="submit" value="Submit"></td>
-					</tr>
-				</table>
-			</form>
-	</div>
-</div>
+
+
 
 {% endblock %}
