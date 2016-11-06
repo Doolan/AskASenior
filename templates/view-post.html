@@ -1,5 +1,10 @@
 {% extends "templates/internal-base.html" %}
 
+
+{% block additional_tags_right %}
+<a class="item profile" onclick="$('#newReplyModal').modal('show');"><strong>Reply to Post</strong></a>
+{% endblock %}
+
 {% block content %}{% endblock %}
 
 {% block posts %}
@@ -15,26 +20,36 @@
     {% include "templates/reply-card.html" %}
     {% endfor %}
 
-    <div class="ui inverted segment">
-        <h2>Add a new reply</h2>
-        <form action="/insert-reply" method="post" class="ui form">
-            <div class="field ui segment">
-                <label>Text</label>
-                <input type="text" name="text" placeholder="Post Text">
-            </div>
-            <div class="field ui segment" style="display: none">
-                <label>post_id</label>
-                <input type="text" name="post_id" value={{post_id}}>
-            </div>
-            <input type="submit" value="Submit" class="ui button">
-        </form>
-    </div>
-
-    <br/>
-    <br/>
 </div>
 {% endblock %}
 
 {% block dialogs %}
 
+<!-- Modals -->
+
+<div class="ui small modal" id="newReplyModal">
+    <div class="header">Reply to Post</div>
+    <div class="content">
+        <form class="ui form" id="newReplyModalForm" action="/insert-reply" method="post">
+            <div class="required field">
+                <label>Text:</label>
+                <input type="text" name="text" placeholder="Reply Text">
+            </div>
+            <div class="field ui segment" style="display: none">
+                <label>post_id</label>
+                <input type="text" name="post_id" value={{post_id}}>
+            </div>
+            <div class="ui error message"></div>
+            <input type="submit" value="Submit" class="ui primary button right floated button">
+        </form>
+        <div class="vertical-half-spacer"></div>
+
+        <!--</div>-->
+        <!--<div class="actions">-->
+        <!--<div class="ui cancel grey basic button">Cancel</div>-->
+        <!--<div class="ui approve green basic button">Save</div>-->
+    </div>
+</div>
+
+    <!-- end Modals -->
 {% endblock %}

@@ -1,34 +1,49 @@
 {% extends "templates/internal-base.html" %}
 
-{% block content %}{% endblock %}
 
-{% block posts %}
+{% block additional_tags_right %}
+<a class="item profile" onclick="$('#newPostModal').modal('show');"><strong>Add New Post</strong></a>
+{% endblock %}
+
+{% block content %}
+
+
 <div class="ui text container centered">
     {% for post in post_query %}
     {% include "templates/post-card.html" %}
     {% endfor %}
-    {% endblock %}
 
-
-    {% block dialogs %}
-
-
-    <div class="ui inverted segment">
-        <h2>Add a new post</h2>
-        <form action="/post" method="post" class="ui form">
-            <div class="field ui segment">
-                <label>Text</label>
-                <input type="text" name="text" placeholder="Post Text">
-            </div>
-            <div class="ui segment">
-                <input type="checkbox" name="is_anonymous">
-                <label>Anonymous?</label>
-            </div>
-            <input type="submit" value="Submit" class="ui button">
-        </form>
-    </div>
-    <br/>
-    <br/>
 </div>
 
-{% endblock %}
+<!-- Modals -->
+
+<div class="ui small modal" id="newPostModal">
+    <div class="header">Add a Post</div>
+    <div class="content">
+        <form class="ui form" id="postModalForm" action="/post" method="post">
+            <div class="required field">
+                <label>Text:</label>
+                <input type="text" name="text" placeholder="Post Text">
+            </div>
+            <div class="field">
+                <label>Anonymous?</label>
+                <div class="ui test toggle checkbox">
+                    <input type="checkbox" checked="checked" name="is_anonymous">
+                    <label></label>
+                </div>
+            </div>
+            <div class="ui error message"></div>
+            <input type="submit" value="Submit" class="ui primary button right floated button">
+        </form>
+        <div class="vertical-half-spacer"></div>
+
+        <!--</div>-->
+        <!--<div class="actions">-->
+        <!--<div class="ui cancel grey basic button">Cancel</div>-->
+        <!--<div class="ui approve green basic button">Save</div>-->
+    </div>
+</div>
+
+    <!-- end Modals -->
+
+    {% endblock %}
