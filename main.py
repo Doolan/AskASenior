@@ -64,6 +64,7 @@ class MainHandler(BaseHandler):
 class PostListHandler(BaseHandler):
     def update_values(self, values):
         values["post_query"] = post_utils.get_query_for_all_posts()
+
     def get_page_title(self):
         return "Posts"
 
@@ -89,6 +90,7 @@ class PostListHandler(BaseHandler):
 class ViewPostHandler(BaseHandler):
     def get_page_title(self):
         return "View Post"
+
     def get(self):
         if "user_info" not in self.session:
             #            raise Exception("Missing user!")
@@ -98,11 +100,11 @@ class ViewPostHandler(BaseHandler):
         else:
             user_info = json.loads(self.session.get("user_info"))
             email = user_info["email"]
-            
-#         self.response.headers['Content-Type'] = 'text/plain'
-#         self.response.write(self.request.GET['resp'])
+
+        #         self.response.headers['Content-Type'] = 'text/plain'
+        #         self.response.write(self.request.GET['resp'])
         post_id = self.request.get("post_id")
-        
+
         post_query = post_utils.get_post_by_id(int(post_id))
         reply_query = post_utils.get_replies_for_post_by_id(int(post_id))
         template = JINJA_ENV.get_template("templates/view-post.html")
@@ -141,14 +143,15 @@ class PostAction(BaseHandler):
                     is_anonymous=False, text=self.request.get('text'))
         post.put()
         self.redirect(self.request.referer)
-        
+
+
 class InsertReplyAction(BaseHandler):
     """Actions related to Posts"""
 
     def post(self):
         user = user_utils.get_user_from_rosefire_user(self.user())
         post = post_utils.get_post_by_id(int(self.request.get('post_id')))
-        reply = Reply(parent = post.key, author = user.key, text = self.request.get('text'))
+        reply = Reply(parent=post.key, author=user.key, text=self.request.get('text'))
         reply.put()
         self.redirect(self.request.referer)
 
@@ -161,10 +164,14 @@ config['webapp2_extras.sessions'] = {
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/post-list', PostListHandler),
+    # Auth
     ('/login', LoginHandler),
     ('/logout', LogoutHandler),
+    # Pages
+    ('/post-list', PostListHandler),
+    ('/view-post', ViewPostHandler),
+
+    # Actions
     ('/post', PostAction),
-    ('/insert-reply', InsertReplyAction),
-    ('/view-post', ViewPostHandler)
+    ('/insert-reply', InsertReplyAction)
 ], config=config, debug=True)

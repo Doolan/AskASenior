@@ -1,72 +1,40 @@
-{% extends "templates/base.html" %} {% block header %}
-<script src="/static/js/rosefire.js"></script>
-<script src="/static/js/login.js"></script>
-{% endblock %} {% block content %}
+{% extends "templates/internal-base.html" %}
 
-<div class="ui inverted primary fixed top menu">
-	<div class="item">
-		<img class="image" src="/static/images/RH_R.png">
-	</div>
-	<div class="item">
-		<h2 class="heading brand">Ask A Senior</h2>
-	</div>
-	<div class="right menu">
-		<a ui-sref="login" id="login" class="item"
-			onclick="rosefire_login_click()">Login Using RoseFire</a>
-	</div>
-</div>
-
-
-
-
-			
-			
-{% endblock %}
+{% block content %}{% endblock %}
 
 {% block posts %}
-	<br />
-	<br />
-	<br />
-	<br />
 <div class="ui text container centered">
-	<div class="ui inverted segment">
-		<h3>{{ post.text }}</h3>
-		<p><em>{% if not post.is_anonymous %} <strong> {{ post.author.get().username }} </strong>
-			   {% else %} (anonymous)
-			 {% endif %}</em></p>
-	</div>
-	
-	  {% for reply in reply_query %}
-    	{% include "templates/reply-card.html" %}
- 	 {% endfor %}
- 	 
-	<div class="ui inverted segment">
-		<h2>Add a new reply</h2>
-		<form action="/insert-reply" method="post" class="ui form">
-			<div class="field ui segment">
-				<label>Text</label>
-				<input type="text" name="text" placeholder="Post Text">
-			</div>
-			<div class="field ui segment" style="display: none">
-				<label>post_id</label>
-				<input type="text" name="post_id" value = {{post_id}}>
-			</div>
-			<input type="submit" value="Submit" class="ui button">
-		</form>
-	</div>
-	
-	<br />
-	<br />
+    <div class="ui inverted segment">
+        <h3>{{ post.text }}</h3>
+        <p><em>{% if not post.is_anonymous %} <strong> {{ post.author.get().username }} </strong>
+            {% else %} (anonymous)
+            {% endif %}</em></p>
+    </div>
+
+    {% for reply in reply_query %}
+    {% include "templates/reply-card.html" %}
+    {% endfor %}
+
+    <div class="ui inverted segment">
+        <h2>Add a new reply</h2>
+        <form action="/insert-reply" method="post" class="ui form">
+            <div class="field ui segment">
+                <label>Text</label>
+                <input type="text" name="text" placeholder="Post Text">
+            </div>
+            <div class="field ui segment" style="display: none">
+                <label>post_id</label>
+                <input type="text" name="post_id" value={{post_id}}>
+            </div>
+            <input type="submit" value="Submit" class="ui button">
+        </form>
+    </div>
+
+    <br/>
+    <br/>
 </div>
 {% endblock %}
 
-
-
-
-			
 {% block dialogs %}
-
-
-
 
 {% endblock %}
