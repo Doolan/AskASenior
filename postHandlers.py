@@ -74,8 +74,10 @@ class PostAction(BaseHandler):
     """Actions related to Posts"""
 
     def post(self):
+        is_anonymous = self.request.get('is_anonymous') == 'true'
+            
         user = user_utils.get_user_from_rosefire_user(self.user())
-        post = Post(category=self.request.get('category'), author=user.key,
-                    is_anonymous=False, text=self.request.get('text'))
+        post = Post(title=self.request.get('title'), type=self.request.get('type'), category=self.request.get('category'), author=user.key,
+                    is_anonymous=is_anonymous, body=self.request.get('body'))
         post.put()
         self.redirect(self.request.referer)

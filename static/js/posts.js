@@ -4,8 +4,19 @@ $(document).ready(function () {
 });
 
 var submitNewPost = function (fields) {
+//    fields.is_anonymous = fields.is_anonymous == 'on';
+    if(fields.is_anonymous == 'on') {
+    	fields.is_anonymous = 'true';
+    } else {
+    	fields.is_anonymous = 'false';
+    }
     console.log(fields);
-    fields.is_anonymous = fields.is_anonymous == 'on';
+    
+    $.post( "/post", fields ).done(function( json ) {
+//	    console.log("Response JSON: " + JSON.stringify(json));
+	}).fail(function(jqxhr, textStatus, error) {
+	    console.log("POST Request Failed: " + textStatus + ", " + error);
+	});
 };
 
 var formConfig = function () {

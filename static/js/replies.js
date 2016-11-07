@@ -5,6 +5,12 @@ $(document).ready(function () {
 
 var submitNewReply = function (fields) {
     console.log(fields);
+    
+    $.post( "/insert-reply", fields ).done(function( json ) {
+//	    console.log("Response JSON: " + JSON.stringify(json));
+	}).fail(function(jqxhr, textStatus, error) {
+	    console.log("POST Request Failed: " + textStatus + ", " + error);
+	});
 };
 
 var formConfig = function () {
