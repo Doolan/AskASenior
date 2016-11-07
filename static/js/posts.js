@@ -1,6 +1,3 @@
-/**
- * Created by Steven on 11/6/2016.
- */
 $(document).ready(function () {
     formConfig();
     modalConfig();
@@ -64,7 +61,7 @@ var formConfig = function () {
 
 var modalConfig = function () {
     $('#newPostModal').modal({
-        // closable: false,
+        closable: false,
         onDeny: function () {
             return true;
         },
@@ -76,6 +73,7 @@ var modalConfig = function () {
 };
 
 var launchModal = function () {
-    $('#newPostModal').modal('show')
-    $('#postModalForm').form('reset')
+    $('#newPostModal').modal('show');
+    $('#postModalForm').form('reset');
+    $('#newPostModal .error.message').empty();
 };

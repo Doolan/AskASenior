@@ -2,10 +2,12 @@
 
 
 {% block additional_tags_right %}
-<a class="item profile" onclick="$('#newReplyModal').modal('show');"><strong>Reply to Post</strong></a>
+<a class="item profile" onclick="launchModal();"><strong>Reply to Post</strong></a>
 {% endblock %}
 
-{% block content %}{% endblock %}
+{% block content %}
+<script src="/static/js/replies.js"></script>
+{% endblock %}
 
 {% block posts %}
 <div class="ui text container centered">
@@ -28,28 +30,27 @@
 <!-- Modals -->
 
 <div class="ui small modal" id="newReplyModal">
-    <div class="header">Reply to Post</div>
+    <div class="header">Reply to Post - {{post.title}}</div>
     <div class="content">
-        <form class="ui form" id="newReplyModalForm" action="/insert-reply" method="post">
+        <form class="ui form" id="newReplyModalForm"><!-- action="/insert-reply" method="post">-->
             <div class="required field">
                 <label>Text:</label>
-                <input type="text" name="text" placeholder="Reply Text">
+                <textarea rows="2" name="text" placeholder="Reply Text"></textarea>
             </div>
             <div class="field ui segment" style="display: none">
                 <label>post_id</label>
                 <input type="text" name="post_id" value={{post_id}}>
             </div>
             <div class="ui error message"></div>
-            <input type="submit" value="Submit" class="ui primary button right floated button">
+            <!--<input type="submit" value="Submit" class="ui primary button right floated button">-->
         </form>
-        <div class="vertical-half-spacer"></div>
-
-        <!--</div>-->
-        <!--<div class="actions">-->
-        <!--<div class="ui cancel grey basic button">Cancel</div>-->
-        <!--<div class="ui approve green basic button">Save</div>-->
+        <!--<div class="vertical-half-spacer"></div>-->
+    </div>
+    <div class="actions">
+        <div class="ui cancel grey basic button">Cancel</div>
+        <div class="ui approve primary button">Save</div>
     </div>
 </div>
 
-    <!-- end Modals -->
+<!-- end Modals -->
 {% endblock %}
