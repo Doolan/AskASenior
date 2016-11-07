@@ -39,7 +39,7 @@ class PyJWS(object):
         Registers a new Algorithm for use when creating and verifying tokens.
         """
         if alg_id in self._algorithms:
-            raise ValueError('Algorithm already has a handler.')
+            raise ValueError('Algorithm already has a handlers.')
 
         if not isinstance(alg_obj, Algorithm):
             raise TypeError('Object is not of type `Algorithm`')

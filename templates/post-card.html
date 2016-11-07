@@ -1,7 +1,24 @@
+
+{% if post.type == 'Question' %}
+<div class="ui blue segment">
+{% elif post.type == 'Suggestion' %}
+<div class="ui orange segment">
+{% elif post.type == 'Announcement' %}
+<div class="ui brown segment">
+ {% else %}
 <div class="ui segment">
-	<h3>{{ post.text }}</h3>
-	<p><em>{% if not post.is_anonymous %} <strong> {{ post.author.get().name+" ("+post.author.get().username+")" }} </strong>
-		   {% else %} (anonymous)
-		 {% endif %}</em></p>
-	<a href="/view-post?post_id={{post.key.id()}}">View Post</a>
+ {% endif %}
+    <h3 class="ui header">{{ post.title }}</h3>
+    <h5 class="ui header">{{post.type}} - {{post.category}}</h5>
+    <p>{{ post.body }}</p>
+    <a  href="/view-post?post_id={{post.key.id()}}" class="ui primary basic button right floated">
+        View Post
+    </a>
+        {% if not post.is_anonymous %}
+    <h4 class="ui header">{{post.author.get().name}} - <em>({{post.author.get().username}})</em></h4>
+    {% else %}
+    <h4 class="ui header"> (anonymous)</h4>
+    {% endif %}
+
+    <div class="vertical-quater-spacer"></div>
 </div>
