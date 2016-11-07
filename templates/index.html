@@ -13,7 +13,7 @@
         <h2 class="heading brand">Ask A Senior</h2>
     </div>
     <div class="right menu">
-        <a ui-sref="login" id="login" class="item" onclick="rosefire_login_click()">Login Using RoseFire</a>
+        <a id="login" class="item" onclick="rosefire_login_click()">Login Using RoseFire</a>
     </div>
 </div>
 <div class="vertical-spacer"></div>
@@ -35,29 +35,4 @@
         </div>
     </div>
 </div>
-<!--{% if user_info is defined %}-->
-<!--<p>-->
-<!--You are logged in as {{ user_info.name }}.-->
-<!--</p>-->
-<!--<ul>-->
-<!--<li><b>username:</b> {{ user_info.username }}</li>-->
-<!--<li><b>email:</b> {{ user_info.email }}</li>-->
-<!--<li><b>role:</b> {{ user_info.role }}</li>-->
-<!--</ul>-->
-<!--<div>-->
-<!--<a href="/logout" class="ui button primary">-->
-<!--Logout-->
-<!--</a>-->
-<!--</div>-->
-<!--{% else %}-->
-<!--<p>-->
-<!--You are not logged in.-->
-<!--</p>-->
-<!--<div>-->
-<!--<button id="login" class="ui button primary">-->
-<!--Login-->
-<!--</button>-->
-<!--</div>-->
-<!--{% endif %}-->
-
 {% endblock %}
