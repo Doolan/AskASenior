@@ -114,6 +114,28 @@ class ViewPostHandler(BaseHandler):
         self.response.out.write(template.render(values))
 
 
+class ViewProfileHandler(BaseHandler):
+    # def get_page_title(self):
+    #     return "View Post"
+
+    def get(self):
+        if "user_info" not in self.session:
+            #            raise Exception("Missing user!")
+            self.redirect("/")
+            return
+
+        else:
+            user_info = json.loads(self.session.get("user_info"))
+            email = user_info["email"]
+
+        query = post_utils.get_query_for_all_posts()
+        values = {"post_query": query}
+
+        template = JINJA_ENV.get_template("templates/profile.html")
+
+        self.response.out.write(template.render(values))
+
+
 # Auth handlers
 class LoginHandler(BaseHandler):
     def get(self):
@@ -170,6 +192,7 @@ app = webapp2.WSGIApplication([
     # Pages
     ('/post-list', PostListHandler),
     ('/view-post', ViewPostHandler),
+    ('/profile', ViewProfileHandler),
 
     # Actions
     ('/post', PostAction),
