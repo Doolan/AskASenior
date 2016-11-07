@@ -7,7 +7,7 @@ from rosefire import RosefireTokenVerifier
 import webapp2
 from webapp2_extras import sessions
 import handlers
-from models import Post, Reply
+from models import Post, Reply, User
 import user_utils
 import post_utils
 
@@ -125,15 +125,29 @@ class ViewProfileHandler(BaseHandler):
             return
 
         else:
-            user_info = json.loads(self.session.get("user_info"))
-            email = user_info["email"]
-
-        query = post_utils.get_query_for_all_posts()
-        values = {"post_query": query}
-
-        template = JINJA_ENV.get_template("templates/profile.html")
-
-        self.response.out.write(template.render(values))
+            username = self.request.get('username', 'none')
+            if username == 'none':
+                user_info = json.loads(self.session.get("user_info"))
+                user = user_utils.get_user_from_username(user_info["username"])
+                print("user info", user_info)
+            else:
+                userResults = User.query(User.username == username).fetch(limit=1)
+                if len(userResults) == 0:
+                    self.redirect(uri="/profile")
+                    return
+                else:
+                    user = userResults[0]
+                    
+            print("user", user)
+            
+    
+            query = post_utils.get_query_for_all_posts_by_user(user)
+            values = {"post_query": query,
+                      "user": user}
+    
+            template = JINJA_ENV.get_template("templates/profile.html")
+    
+            self.response.out.write(template.render(values))
 
 
 # Auth handlers
@@ -193,7 +207,6 @@ app = webapp2.WSGIApplication([
     ('/post-list', PostListHandler),
     ('/view-post', ViewPostHandler),
     ('/profile', ViewProfileHandler),
-
     # Actions
     ('/post', PostAction),
     ('/insert-reply', InsertReplyAction)

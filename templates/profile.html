@@ -15,20 +15,16 @@
                 <img class="ui medium bordered image" src="static/images/IMG_5829_square.jpg">
             </div>
             <div class="eight wide column">
-                <h1 class="ui header">Steven Doolan</h1>
-                <h3 class="ui header"><em>doolansr</em></h3>
+                <h1 class="ui header">{{ user.name }}</h1>
+                <h3 class="ui header"><em>{{ user.username }}</em></h3>
                 <a href="mailto:doolansr@rose-hulman.edu?subject=AskASenior" targer="_top">
-                    <h3 class="ui blue header" style="clear:both">doolansr@rose-hulman.edu
+                    <h3 class="ui blue header" style="clear:both">{{ user.email }}
                         <!--<i class="mail icon"></i></h3>-->
                     </h3>
                 </a>
                 <!--<h3 class="ui header blue">doolansr@rose-hulman.edu</h3>-->
                 <div class="vertical-half-spacer"></div>
-                <div class="ui message ">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis quam sed arcu faucibus,
-                    in porta nisl cursus. Suspendisse in facilisis massa, euismod vulputate lectus. Phasellus faucibus
-                    iaculis velit in convallis.
-                </div>
+                <div class="ui message ">{{ user.description }}</div>
             </div>
         </div>
     </div>
