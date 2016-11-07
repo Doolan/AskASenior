@@ -11,6 +11,7 @@ class User(ndb.Model):
     ID = ndb.StringProperty()
     username = ndb.StringProperty()
     email = ndb.StringProperty()
+    name = ndb.StringProperty()
     #year = ndb.IntgerProperty()
 
 
