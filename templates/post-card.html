@@ -1,5 +1,6 @@
 <div class="ui segment">
 	<h3>{{ post.title }}</h3>
+	<p>{{ post.body }}</h3>
 	<p><em>{% if not post.is_anonymous %} <strong> {{ post.author.get().username }} </strong>
 		   {% else %} (anonymous)
 		 {% endif %}</em></p>
