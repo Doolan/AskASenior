@@ -22,8 +22,34 @@
     <div class="content">
         <form class="ui form" id="postModalForm" action="/post" method="post">
             <div class="required field">
-                <label>Text:</label>
-                <input type="text" name="text" placeholder="Post Text">
+                <label>Title:</label>
+                <input type="text" name="text" placeholder="Post Title">
+            </div>
+            <div class="two fields">
+                <div class="required field">
+                    <label>Type</label>
+                    <select class="ui fluid search dropdown" name="type" placeholder="Select a Type">
+                        <option value="Question">Question</option>
+                        <option value="Suggestion">Suggestion</option>
+                        <option value="Announcement">Announcement</option>
+                    </select>
+                </div>
+                <div class="required field">
+                    <label>Category</label>
+                    <select class="ui fluid search dropdown" name="category" placeholder="Select a Category">
+                        <option value="Class">Classes</option>
+                        <option value="Food">Food</option>
+                        <option value="RecSports">Rec Sports</option>
+                        <option value="Clubs">Clubs</option>
+                        <option value="ProfessionalDevelopment">Professional Development</option>
+                        <option value="Extra-CurricularActivates">Extra-Curricular Activates</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="required field">
+                <label>Body:</label>
+                <textarea rows="3" name="body" placeholder="Text Body"></textarea>
             </div>
             <div class="field">
                 <label>Anonymous?</label>
@@ -36,14 +62,9 @@
             <input type="submit" value="Submit" class="ui primary button right floated button">
         </form>
         <div class="vertical-half-spacer"></div>
-
-        <!--</div>-->
-        <!--<div class="actions">-->
-        <!--<div class="ui cancel grey basic button">Cancel</div>-->
-        <!--<div class="ui approve green basic button">Save</div>-->
     </div>
 </div>
 
-    <!-- end Modals -->
+<!-- end Modals -->
 
-    {% endblock %}
+{% endblock %}
