@@ -34,13 +34,12 @@ class MainHandler(BaseHandler):
             self.response.out.write(template.render())
 
 
-
-
 class ViewProfileHandler(BaseHandler):
     # def get_page_title(self):
     #     return "View Post"
 
     def get(self):
+        is_self = False
         if "user_info" not in self.session:
             #            raise Exception("Missing user!")
             self.redirect("/")
@@ -51,6 +50,7 @@ class ViewProfileHandler(BaseHandler):
             if username == 'none':
                 user_info = json.loads(self.session.get("user_info"))
                 user = user_utils.get_user_from_username(user_info["username"])
+                is_self = True
                 print("user info", user_info)
             else:
                 userResults = User.query(User.username == username).fetch(limit=1)
@@ -59,16 +59,16 @@ class ViewProfileHandler(BaseHandler):
                     return
                 else:
                     user = userResults[0]
-                    
+
             print("user", user)
-            
-    
+
             query = post_utils.get_query_for_all_posts_by_user(user)
             values = {"post_query": query,
-                      "user": user}
-    
+                      "user": user,
+                      "is_self": is_self}
+
             template = JINJA_ENV.get_template("templates/profile.html")
-    
+
             self.response.out.write(template.render(values))
 
 
@@ -90,8 +90,6 @@ class LogoutHandler(BaseHandler):
     def get(self):
         del self.session["user_info"]
         self.redirect(uri="/")
-
-
 
 
 class InsertReplyAction(BaseHandler):
