@@ -2,11 +2,11 @@
 
 
 {% block additional_tags_right %}
-<a class="item profile" onclick="$('#newPostModal').modal('show');"><strong>Add New Post</strong></a>
+<a class="item profile" onclick="launchModal()"><strong>Add New Post</strong></a>
 {% endblock %}
 
 {% block content %}
-
+<script src="/static/js/posts.js"></script>
 
 <div class="ui text container centered">
     {% for post in post_query %}
@@ -20,10 +20,10 @@
 <div class="ui small modal" id="newPostModal">
     <div class="header">Add a Post</div>
     <div class="content">
-        <form class="ui form" id="postModalForm" action="/post" method="post">
+        <form class="ui form" id="postModalForm" > <!--action="/post" method="post">-->
             <div class="required field">
                 <label>Title:</label>
-                <input type="text" name="text" placeholder="Post Title">
+                <input type="text" name="title" placeholder="Post Title">
             </div>
             <div class="two fields">
                 <div class="required field">
@@ -39,10 +39,10 @@
                     <select class="ui fluid search dropdown" name="category" placeholder="Select a Category">
                         <option value="Class">Classes</option>
                         <option value="Food">Food</option>
-                        <option value="RecSports">Rec Sports</option>
+                        <option value="Rec_Sports">Rec Sports</option>
                         <option value="Clubs">Clubs</option>
-                        <option value="ProfessionalDevelopment">Professional Development</option>
-                        <option value="Extra-CurricularActivates">Extra-Curricular Activates</option>
+                        <option value="Professional_Development">Professional Development</option>
+                        <option value="Extra-Curricular_Activates">Extra-Curricular Activates</option>
                         <option value="Other">Other</option>
                     </select>
                 </div>
@@ -59,10 +59,14 @@
                 </div>
             </div>
             <div class="ui error message"></div>
-            <input type="submit" value="Submit" class="ui primary button right floated button">
+            <!--<input type="submit" value="Submit" class="ui primary button right floated button">-->
         </form>
         <div class="vertical-half-spacer"></div>
     </div>
+    <div class="actions">
+		<div class="ui cancel grey basic button">Cancel</div>
+		<div class="ui approve green basic button">Save</div>
+	</div>
 </div>
 
 <!-- end Modals -->
