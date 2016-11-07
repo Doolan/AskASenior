@@ -17,17 +17,19 @@ class User(ndb.Model):
 
 class Post(ndb.Model):
     #category = ndb.StringProperty(repeated=True)
+    type = ndb.StringProperty()
     category = ndb.StringProperty()
     author = ndb.KeyProperty(kind=User)
     is_anonymous = ndb.BooleanProperty()
-    text = ndb.TextProperty()
+    title = ndb.StringProperty()
+    body = ndb.TextProperty()
     time = ndb.DateTimeProperty(auto_now_add=True)
 
 
 class Reply(ndb.Model):
     parent = ndb.KeyProperty(kind=Post)
     author = ndb.KeyProperty(kind=User)
-    up_votes = ndb.KeyProperty(kind=User, repeated=True, default=None)
-    down_votes = ndb.KeyProperty(kind=User, repeated=True, default=None)
+#     up_votes = ndb.KeyProperty(kind=User, repeated=True, default=None)
+#     down_votes = ndb.KeyProperty(kind=User, repeated=True, default=None)
     text = ndb.TextProperty()
     time = ndb.DateTimeProperty(auto_now_add=True)
