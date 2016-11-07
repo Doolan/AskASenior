@@ -12,6 +12,7 @@ class User(ndb.Model):
     username = ndb.StringProperty()
     email = ndb.StringProperty()
     name = ndb.StringProperty()
+    description = ndb.StringProperty(default="Hi, I'm boring and haven't filled out my profile description yet!")
     #year = ndb.IntgerProperty()
 
 

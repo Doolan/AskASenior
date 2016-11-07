@@ -5,6 +5,10 @@ def get_query_for_all_posts():
     """ Returns a query for all OBJECTS for this user. """
     return Post.query().order(Post.time)
 
+def get_query_for_all_posts_by_user(user):
+    """ Returns a query for all OBJECTS for this user. """
+    return Post.query().filter(Post.author == user.key).order(Post.time)
+
 def get_post_by_id(post_id):
     """ Returns a query for all OBJECTS for this user. """
     return Post.get_by_id(int(post_id))
