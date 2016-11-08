@@ -19,14 +19,14 @@
                 {% if user.image_blob_key %}
                 <img class="ui medium bordered image" src="img/{{ user.image_blob_key }}">
                 {% else %}
-                <img class="ui medium bordered image" src="static/images/IMG_5829_square.jpg">
+                <img class="ui medium bordered image" src="static/images/Harambe.jpg">
                 {% endif %}
                 
             </div>
             <div class="eight wide column">
                 <h1 class="ui header">{{ user.name }}</h1>
                 <h3 class="ui header"><em>{{ user.username }}</em></h3>
-                <a href="mailto:doolansr@rose-hulman.edu?subject=AskASenior" targer="_top">
+                <a href="mailto:{{user.username}}@rose-hulman.edu?subject=AskASenior" targer="_top">
                     <h3 class="ui blue header" style="clear:both">{{ user.email }}
                         <!--<i class="mail icon"></i></h3>-->
                     </h3>

@@ -2,7 +2,9 @@ import json
 import os
 
 import jinja2
+import time
 import webapp2
+from google.appengine.ext import ndb
 from webapp2_extras import sessions
 import handlers
 from models import Post, Reply, User
@@ -20,6 +22,8 @@ from utils import post_utils, user_utils
 
 # This normally shouldn't be checked into Git
 ROSEFIRE_SECRET = '5LgLSINSUKGVbkwTw0ue'
+UNIVERSAL_PARENT = ndb.Key("Entity",'DARTH_VADER')
+
 
 JINJA_ENV = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -45,13 +49,14 @@ class ViewProfileHandler(BaseHandler):
 
     def get(self):
         is_self = False
-        
+
         if "user_info" not in self.session:
             #            raise Exception("Missing user!")
             self.redirect("/")
             return
 
         else:
+            user_utils.get_user_from_rosefire_user(self.user())
             username = self.request.get('username', 'none')
             if username == 'none':
                 user_info = json.loads(self.session.get("user_info"))
@@ -72,7 +77,7 @@ class ViewProfileHandler(BaseHandler):
             values = {"post_query": query,
                       "user": user,
                       "is_self": is_self}
-            
+
             values["form_action"] = blobstore.create_upload_url('/update-profile')
 
             template = JINJA_ENV.get_template("templates/profile.html")
@@ -90,6 +95,7 @@ class LoginHandler(BaseHandler):
                          "username": auth_data.username,
                          "email": auth_data.email,
                          "role": auth_data.group}
+
             self.session["user_info"] = json.dumps(user_info)
         self.redirect(uri="/")
 
@@ -108,19 +114,24 @@ class InsertReplyAction(BaseHandler):
         post = post_utils.get_post_by_id(int(self.request.get('post_id')))
         reply = Reply(parent=post.key, author=user.key, text=self.request.get('text'))
         reply.put()
+        time.sleep(.5)
         self.redirect(self.request.referer)
-        
-        
+
+
 class UpdateProfileAction(handlers.BaseBlobstoreHandler):
     def post(self):
         logging.info("Received an image blob with this data.")
         userdata = user_utils.get_user_from_rosefire_user(self.user())
-        media_blob = self.get_uploads()[0]
-        userdata.image_blob_key = media_blob.key()
+        if len(self.get_uploads()) > 0:
+            media_blob = self.get_uploads()[0]
+            userdata.image_blob_key = media_blob.key()
         userdata.description = self.request.get('profile-description')
         userdata.put()
+        #time.sleep(.5)
         self.redirect("/profile")
-#         self.response.on_completion()
+
+
+# self.response.on_completion()
 
 
 

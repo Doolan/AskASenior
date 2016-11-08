@@ -21,6 +21,18 @@ indexes:
   - name: author
   - name: time
 
+- kind: Post
+  ancestor: yes
+  properties:
+  - name: author
+  - name: is_anonymous
+  - name: time
+
+- kind: Post
+  ancestor: yes
+  properties:
+  - name: time
+
 - kind: Reply
   ancestor: yes
   properties:

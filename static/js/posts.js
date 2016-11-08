@@ -14,6 +14,7 @@ var submitNewPost = function (fields) {
     
     $.post( "/post", fields ).done(function( json ) {
 //	    console.log("Response JSON: " + JSON.stringify(json));
+        location.reload();
 	}).fail(function(jqxhr, textStatus, error) {
 	    console.log("POST Request Failed: " + textStatus + ", " + error);
 	});
