@@ -5,6 +5,9 @@ Created on Oct 24, 2016
 '''
 
 from google.appengine.ext import ndb
+from google.appengine.api import blobstore
+from google.appengine.api.blobstore.blobstore import BlobKey
+from google.appengine.ext.webapp import blobstore_handlers
 
 
 class User(ndb.Model):
@@ -13,6 +16,7 @@ class User(ndb.Model):
     email = ndb.StringProperty()
     name = ndb.StringProperty()
     description = ndb.StringProperty(default="Hi, I'm boring and haven't filled out my profile description yet!")
+    image_blob_key = ndb.BlobKeyProperty()
     #year = ndb.IntgerProperty()
 
 

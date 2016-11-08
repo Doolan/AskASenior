@@ -9,6 +9,11 @@ from models import Post, Reply, User
 from handlers import BaseHandler
 from rosefire import RosefireTokenVerifier
 
+from google.appengine.api import blobstore
+from google.appengine.api.blobstore.blobstore import BlobKey
+from google.appengine.ext.webapp import blobstore_handlers
+import logging
+
 from models import Reply
 from postHandlers import PostListHandler, ViewPostHandler, PostAction
 from utils import post_utils, user_utils
@@ -40,6 +45,7 @@ class ViewProfileHandler(BaseHandler):
 
     def get(self):
         is_self = False
+        
         if "user_info" not in self.session:
             #            raise Exception("Missing user!")
             self.redirect("/")
@@ -62,10 +68,12 @@ class ViewProfileHandler(BaseHandler):
 
             print("user", user)
 
-            query = post_utils.get_query_for_all_posts_by_user(user)
+            query = post_utils.get_query_for_all_nonanonymous_posts_by_user(user)
             values = {"post_query": query,
                       "user": user,
                       "is_self": is_self}
+            
+            values["form_action"] = blobstore.create_upload_url('/update-profile')
 
             template = JINJA_ENV.get_template("templates/profile.html")
 
@@ -101,6 +109,19 @@ class InsertReplyAction(BaseHandler):
         reply = Reply(parent=post.key, author=user.key, text=self.request.get('text'))
         reply.put()
         self.redirect(self.request.referer)
+        
+        
+class UpdateProfileAction(handlers.BaseBlobstoreHandler):
+    def post(self):
+        logging.info("Received an image blob with this data.")
+        userdata = user_utils.get_user_from_rosefire_user(self.user())
+        media_blob = self.get_uploads()[0]
+        userdata.image_blob_key = media_blob.key()
+        userdata.description = self.request.get('profile-description')
+        userdata.put()
+        self.redirect("/profile")
+#         self.response.on_completion()
+
 
 
 config = {}
@@ -111,6 +132,7 @@ config['webapp2_extras.sessions'] = {
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
+    ('/img/([^/]+)?', handlers.BlobServer),
     # Auth
     ('/login', LoginHandler),
     ('/logout', LogoutHandler),
@@ -120,5 +142,6 @@ app = webapp2.WSGIApplication([
     ('/profile', ViewProfileHandler),
     # Actions
     ('/post', PostAction),
-    ('/insert-reply', InsertReplyAction)
+    ('/insert-reply', InsertReplyAction),
+    ('/update-profile', UpdateProfileAction)
 ], config=config, debug=True)

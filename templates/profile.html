@@ -14,7 +14,14 @@
     <div class="ui relaxed grid">
         <div class="row">
             <div class="eight wide column">
+                
+                
+                {% if user.image_blob_key %}
+                <img class="ui medium bordered image" src="img/{{ user.image_blob_key }}">
+                {% else %}
                 <img class="ui medium bordered image" src="static/images/IMG_5829_square.jpg">
+                {% endif %}
+                
             </div>
             <div class="eight wide column">
                 <h1 class="ui header">{{ user.name }}</h1>
@@ -45,8 +52,8 @@
 <div class="ui small modal" id="userSettingsModal">
     <div class="header">Add a Post</div>
     <div class="content">
-        <form class="ui form" id="userSettingForm" enctype="multipart/form-data">
-            <!-- action="{{ form_action }}" method="POST" enctype="multipart/form-data"> -->
+        <form class="ui form" id="userSettingForm" enctype="multipart/form-data" 
+        	action="{{ form_action }}" method="POST">
             <div class="field">
                 <label>Profile Image</label>
                 <input id="img-input" type="file" hidden name="image_attachment" class="">
@@ -71,17 +78,18 @@
             <div class="field">
                 <label>Profile Description:</label>
                 <textarea rows="3" name="profile-description"
-                          placeholder="Enter or Edit Your Profile Description"></textarea>
+                          placeholder="Enter or Edit Your Profile Description">{{ user.description }}</textarea>
             </div>
             <div class="ui error message"></div>
-            <!--<input type="submit" value="Submit" class="ui primary button right floated button">-->
+            <input type="submit" value="Save" class="ui primary button right floated button">
+            <div class="actions">
+		        <div class="ui cancel grey basic button">Cancel</div>
+		        <!-- <div id="profile-save-btn" class="ui approve primary button">Save</div> -->
+		    </div>
         </form>
         <!--<div class="vertical-half-spacer"></div>-->
     </div>
-    <div class="actions">
-        <div class="ui cancel grey basic button">Cancel</div>
-        <div class="ui approve primary button">Save</div>
-    </div>
+
 </div>
 
 <!-- end Modals -->
