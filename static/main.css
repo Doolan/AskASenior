@@ -41,3 +41,7 @@
     clear: both;
     padding-top: 0.25em;
 }
+
+h2 .heading.brand {
+    font-family: 'Lobster', cursive !important;
+}
