@@ -16,6 +16,11 @@
     </a>
     {% if not post.is_anonymous %}
     <h4 class="ui header">
+        {% if post.author.get().image_blob_key %}
+        <img class="ui avatar image" src="img/{{ post.author.get().image_blob_key }}">
+        {% else %}
+        <img class="ui avatar image" src="static/images/Harambe.jpg">
+        {% endif %}
         <a href="/profile?username={{post.author.get().username}}">{{post.author.get().name}}</a>
         - <em>({{post.author.get().username}})</em></h4>
     {% else %}

@@ -1,4 +1,12 @@
 <div class="ui segment">
-	<h4 class="ui header">{{ reply.text }}</h4>
-	<p><em><strong> {{ reply.author.get().name+" ("+reply.author.get().username+")" }} </strong></em></p>
+    <h4 class="ui header">{{ reply.text }}</h4>
+    <h4 class="ui header">
+        {% if reply.author.get().image_blob_key %}
+        <img class="ui avatar image" src="img/{{ reply.author.get().image_blob_key }}">
+        {% else %}
+        <img class="ui avatar image" src="static/images/Harambe.jpg">
+        {% endif %}
+        <a href="/profile?username={{reply.author.get().username}}"><strong>{{reply.author.get().name}}</strong></a>
+        - <em>({{reply.author.get().username}})</em>
+    </h4>
 </div>
